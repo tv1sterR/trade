@@ -1,0 +1,42 @@
+{% extends "app/base.html" %}
+
+{% block title %}Создать объявление{% endblock %}
+
+{% block content %}
+<h2>Создание объявления</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <label>Заголовок объявления:</label>
+        <input type="text" name="title" required>
+    </div>
+
+    <div class="form-row">
+        <label>Описание товара:</label>
+        <textarea name="description" required></textarea>
+    </div>
+
+    <div class="form-row">
+        <label>URL изображения (необязательно):</label>
+        <input type="url" name="image_url">
+    </div>
+
+    <div class="form-row">
+        <label>Категория товара:</label>
+        <input type="text" name="category" required>
+    </div>
+
+    <div class="form-row">
+        <label>Состояние товара:</label>
+        <select name="condition">
+            <option value="new">Новый</option>
+            <option value="used">Б/у</option>
+        </select>
+    </div>
+
+    <button type="submit">Опубликовать объявление</button>
+</form>
+
+{% endblock %}

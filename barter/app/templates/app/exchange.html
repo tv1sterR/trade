@@ -1,0 +1,30 @@
+{% extends "app/base.html" %}
+
+{% block title %}Предложение обмена{% endblock %}
+
+{% block content %}
+<h2>Обмен товара: {{ post_receiver.title }}</h2>
+
+<p>Вы хотите обменять этот товар? Выберите свое объявление для обмена:</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <label>Ваше объявление:</label>
+        <select name="post_sender_id" required>
+            {% for post in user_posts %}
+                <option value="{{ post.id }}">{{ post.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label>Комментарий (необязательно):</label>
+        <textarea name="comment"></textarea>
+    </div>
+
+    <button type="submit">Отправить запрос на обмен</button>
+</form>
+
+{% endblock %}

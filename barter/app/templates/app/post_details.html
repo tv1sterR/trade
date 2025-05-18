@@ -1,0 +1,21 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p><strong>Описание:</strong> {{ post.description }}</p>
+<p><strong>Категория:</strong> {{ post.category }}</p>
+<p><strong>Состояние:</strong> {{ post.get_condition_display }}</p>
+
+{% if post.photo %}
+    <img src="{{ post.photo }}" alt="{{ post.title }}" style="max-width: 100%;">
+{% endif %}
+
+<p><strong>Дата публикации:</strong> {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+{% if user == post.user %}
+    <a href="{% url 'edit_post' post.id %}">Редактировать</a> |
+    <a href="{% url 'delete_post' post.id %}">Удалить</a>
+{% else %}
+    <a href="{% url 'exchange_post' post.id %}">Обменять</a>
+{% endif %}
+{% endblock %}

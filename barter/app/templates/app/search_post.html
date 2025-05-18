@@ -1,0 +1,48 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h2>Результаты поиска</h2>
+
+<form method="GET" action="{% url 'search_post' %}">
+    <input type="text" name="q" placeholder="Введите ключевые слова" value="{{ query }}">
+    <label>Категория:</label>
+    <select name="category">
+        <option value="">Все</option>
+        {% for cat in categories %}
+            <option value="{{ cat }}" {% if category == cat %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Состояние:</label>
+    <select name="condition">
+        <option value="">Любое</option>
+        <option value="новый" {% if condition == "новый" %}selected{% endif %}>Новый</option>
+        <option value="бу" {% if condition == "бу" %}selected{% endif %}>БУ</option>
+    </select>
+    <button type="submit">Поиск</button>
+</form>
+
+{% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+                ({{ post.category }}, {{ post.get_condition_display }})
+            </li>
+        {% endfor %}
+    </ul>
+    {% if posts.has_other_pages %}
+        <div class="pagination">
+            {% if posts.has_previous %}
+                <a href="?q={{ query }}&category={{ category }}&condition={{ condition }}&page={{ posts.previous_page_number }}">⟨ Назад</a>
+            {% endif %}
+            <span>Страница {{ posts.number }} из {{ posts.paginator.num_pages }}</span>
+            {% if posts.has_next %}
+                <a href="?q={{ query }}&category={{ category }}&condition={{ condition }}&page={{ posts.next_page_number }}">Вперед ⟩</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+{% endblock %}

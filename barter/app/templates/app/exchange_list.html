@@ -1,0 +1,34 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h2>Мои предложения обмена</h2>
+
+<form method="GET">
+    <label>Фильтр по статусу:</label>
+    <select name="status">
+        <option value="">Все</option>
+        <option value="pending">Ожидает</option>
+        <option value="accepted">Принята</option>
+        <option value="declined">Отклонена</option>
+    </select>
+    <button type="submit">Фильтровать</button>
+</form>
+
+<ul>
+    {% for offer in offers %}
+        <li>
+            {{ offer.post_sender.title }} - {{ offer.post_receiver.title }} ({{ offer.get_status_display }})
+            {% if user == offer.post_receiver.user and offer.status == "pending" %}
+                <a href="{% url 'update_exchange' offer.id %}">Обновить статус</a>
+            {% endif %}
+
+            {% if user == offer.sender and offer.status == "pending" %}
+                <form method="post" action="{% url 'cancel_exchange' offer.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Отменить обмен</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

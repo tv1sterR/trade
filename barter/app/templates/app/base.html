@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Платформа обмена{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'home' %}">Платформа обмена</a></h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'create_post' %}">Создать объявление</a></li>
+                <li><a href="{% url 'search_post' %}">Поиск объявлений</a></li>
+                <li><a href="{% url 'exchange_list' %}">Мои обмены</a></li>
+                {% if user.is_authenticated %}
+                    <li>Привет, {{ user.username }}! <a href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Войти</a></li>
+                    <li><a href="{% url 'signup' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %} {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 Платформа обмена. Все права защищены.</p>
+    </footer>
+</body>
+</html>

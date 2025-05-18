@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h2>Редактировать объявление</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label>Заголовок:</label>
+    <input type="text" name="title" value="{{ post.title }}" required>
+
+    <label>Описание:</label>
+    <textarea name="description">{{ post.description }}</textarea>
+
+    <label>Изображение:</label>
+    <input type="url" name="photo" value="{{ post.photo }}">
+
+    <label>Категория:</label>
+    <input type="text" name="category" value="{{ post.category }}" required>
+
+    <label>Состояние:</label>
+    <select name="condition">
+        <option value="new" {% if post.condition == "new" %}selected{% endif %}>Новый</option>
+        <option value="used" {% if post.condition == "used" %}selected{% endif %}>БУ</option>
+    </select>
+
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h1>Добро пожаловать на платформу по обмену</h1>
+<p>Последние 10 объявлений:</p>
+
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'post_details' post.id %}">{{ post.title }}</a> ({{ post.category }}, {{ post.condition_display }})
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

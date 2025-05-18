@@ -1,0 +1,17 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h2>Обновить статус предложения</h2>
+
+<p>Обмен: {{ offer.post_sender.title }} ↔ {{ offer.post_receiver.title }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <label>Статус:</label>
+    <select name="status">
+        <option value="accepted">Принято</option>
+        <option value="declined">Отклонено</option>
+    </select>
+    <button type="submit">Обновить</button>
+</form>
+{% endblock %}
